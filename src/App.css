@@ -1,0 +1,19 @@
+.background{
+    background-image: url(../public/logo512.png);
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.logo {
+    float: right;
+    width: 50%;
+}
+.recibo {
+    width: 30%;
+}
+.bttn-salir{
+    margin-left: 0.5rem;
+    color: red;
+}
