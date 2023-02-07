@@ -76,30 +76,39 @@ const OrderTable = function OrderDataTable() {
             </span>
         );
     }
-    
-    
+
+
     const handleDetail = (row) => {
         // setDetail(row.attributes?.productlist ? JSON.parse(row.attributes?.productlist) : [])
-        
+
         // console.log("row.attributes?.products.data content",row.attributes?.products.data)
         // console.log("details content",detail)
         // setDetail(row.attributes?.products.data)
-        if(row?.attributes?.products?.data){
+        let validJson = {}
+        try {
+            let _ = JSON.parse(row.attributes?.productlist)
+            for (let each of _) {
+                validJson[each?.product?.id || ''] = each.quantity
+            }
+        } catch (error) {
+            validJson = {}
+        }
+        if (row?.attributes?.products?.data) {
             let payload = [];
             row.attributes?.products?.data?.map((item) => {
                 var object = {
                     id: item.id
                 };
-                object["id"] = item?.attributes?.id;
+                object["id"] = item?.id;
                 object["productname"] = item?.attributes?.name;
                 object["amount1"] = item?.attributes?.price1;
                 object["amount2"] = item?.attributes?.price2;
-                object["quantity"] = item?.attributes?.quantity;
+                object["quantity"] = validJson[item?.id] || 0;
                 object["unit"] = item?.attributes?.unit;
                 payload.push(object);
-                })
+            })
             setDetail(payload);
-            }
+        }
     }
     const header1 = renderHeader('filters1');
 
@@ -117,10 +126,10 @@ const OrderTable = function OrderDataTable() {
             <div className="card ">
                 <div className='row'>
                     <div className='rowfirst'>
-                <h5>Órdenes de compra</h5>
+                        <h5>Órdenes de compra</h5>
                     </div>
                     <div className='rowlast'>
-                <img className='logo' src={require('../assets/logo192.png')}/>
+                        <img className='logo' src={require('../assets/logo192.png')} />
                     </div>
                 </div>
                 <DataTable
@@ -133,15 +142,15 @@ const OrderTable = function OrderDataTable() {
                     dataKey="id" responsiveLayout="scroll"
                     stateStorage="session" stateKey="dt-state-demo-session" emptyMessage="No se encontraron órdenes.">
                     <Column field="id" header="Id" ></Column>
-                    <Column header="Fecha" body={(row) => (<p>{row.attributes.createdAt.slice(0,10)}</p>)}></Column>
-                    <Column header="Hora" body={(row) => (<p>{row.attributes.createdAt.slice(11,19)}</p>)}></Column>
+                    <Column header="Fecha" body={(row) => (<p>{row.attributes.createdAt.slice(0, 10)}</p>)}></Column>
+                    <Column header="Hora" body={(row) => (<p>{row.attributes.createdAt.slice(11, 19)}</p>)}></Column>
                     <Column header="Comprador" body={(row) => (<p>{row.attributes.buyer}</p>)} ></Column>
                     <Column header="Teléfono" body={(row) => (<p>{row.attributes.buyerphone}</p>)} ></Column>
                     <Column header="Email" body={(row) => (<p>{row.attributes.buyeremail}</p>)} ></Column>
                     <Column header="Monto" body={(row) => (<p>${row.attributes.amount}</p>)} ></Column>
                     <Column header="Recibo" body={(row) => (
-                    <a href={'https://strapi.arpitools.com' + row.attributes.receipt} target="_blank">
-                        <img className='recibo' src={'https://strapi.arpitools.com' + row.attributes.receipt}/>
+                        <a href={'https://strapi.arpitools.com' + row.attributes.receipt} target="_blank">
+                            <img className='recibo' src={'https://strapi.arpitools.com' + row.attributes.receipt} />
                         </a>)} ></Column>
                     <Column header="Entrega" body={(row) => (<p>{row.attributes.deliveryto}</p>)} ></Column>
                     <Column header="Vendedor" body={(row) => (<p>{row.attributes.seller?.data?.attributes?.name}</p>)} ></Column>
@@ -179,7 +188,7 @@ const OrderTable = function OrderDataTable() {
                     <Column field="amount2" header="Precio unitario Constructores" ></Column>
                     <Column field="quantity" header="Cantidad" ></Column>
                     <Column field="unit" header="Unidad" ></Column>
-                    
+
                 </DataTable>
             </Dialog>
         </div>
