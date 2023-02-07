@@ -76,8 +76,30 @@ const OrderTable = function OrderDataTable() {
             </span>
         );
     }
+    
+    
     const handleDetail = (row) => {
-        setDetail(row.attributes?.productlist ? JSON.parse(row.attributes?.productlist) : [])
+        // setDetail(row.attributes?.productlist ? JSON.parse(row.attributes?.productlist) : [])
+        
+        // console.log("row.attributes?.products.data content",row.attributes?.products.data)
+        // console.log("details content",detail)
+        // setDetail(row.attributes?.products.data)
+        if(row?.attributes?.products?.data){
+            let payload = [];
+            row.attributes?.products?.data?.map((item) => {
+                var object = {
+                    id: item.id
+                };
+                object["id"] = item?.attributes?.id;
+                object["productname"] = item?.attributes?.name;
+                object["amount1"] = item?.attributes?.price1;
+                object["amount2"] = item?.attributes?.price2;
+                object["quantity"] = item?.attributes?.quantity;
+                object["unit"] = item?.attributes?.unit;
+                payload.push(object);
+                })
+            setDetail(payload);
+            }
     }
     const header1 = renderHeader('filters1');
 
@@ -116,7 +138,7 @@ const OrderTable = function OrderDataTable() {
                     <Column header="Comprador" body={(row) => (<p>{row.attributes.buyer}</p>)} ></Column>
                     <Column header="Teléfono" body={(row) => (<p>{row.attributes.buyerphone}</p>)} ></Column>
                     <Column header="Email" body={(row) => (<p>{row.attributes.buyeremail}</p>)} ></Column>
-                    <Column header="Monto" body={(row) => (<p>{row.attributes.amount}</p>)} ></Column>
+                    <Column header="Monto" body={(row) => (<p>${row.attributes.amount}</p>)} ></Column>
                     <Column header="Recibo" body={(row) => (
                     <a href={'https://strapi.arpitools.com' + row.attributes.receipt} target="_blank">
                         <img className='recibo' src={'https://strapi.arpitools.com' + row.attributes.receipt}/>
@@ -151,10 +173,13 @@ const OrderTable = function OrderDataTable() {
                     paginator rows={10} filters={filters1} onFilter={(e) => setFilters1(e.filters)}
                     dataKey="id" responsiveLayout="scroll"
                     stateStorage="session" stateKey="dt-state-demo-session" emptyMessage="No product found.">
-                    <Column field="amount" header="Cantidad" ></Column>
+                    <Column field="id" header="Código del producto" ></Column>
                     <Column field="productname" header="Nombre del producto" ></Column>
-                    <Column field="productocode" header="Código del producto" ></Column>
+                    <Column field="amount1" header="Precio unitario Ferreteros" ></Column>
+                    <Column field="amount2" header="Precio unitario Constructores" ></Column>
+                    <Column field="quantity" header="Cantidad" ></Column>
                     <Column field="unit" header="Unidad" ></Column>
+                    
                 </DataTable>
             </Dialog>
         </div>
@@ -162,5 +187,3 @@ const OrderTable = function OrderDataTable() {
 }
 
 export default React.memo(OrderTable);
-
-
