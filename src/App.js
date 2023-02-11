@@ -1,8 +1,10 @@
 import React from "react";
 import {
   createBrowserRouter,
-  RouterProvider,
+  BrowserRouter as Router,
+  HashRouter
 } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -25,7 +27,14 @@ function App() {
   ]);
   return (
     <AuthProvider>
-      <RouterProvider router={router} />
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/report" element={<Home />} />
+          <Route path="/reset-passowrd" element={<Reset />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </HashRouter>
     </AuthProvider>
   );
 }
