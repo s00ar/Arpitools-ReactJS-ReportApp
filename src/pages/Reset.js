@@ -36,6 +36,7 @@ export default function Reset() {
             setNewPassword('')
             setPassword('')
             toast.current.show({ severity: 'success', summary: 'Success', detail: 'Password changed successfully.', life: 3000 });
+            window.location.href = "https://arpitools.com/"
         } catch (error) {
             toast.current.show({ severity: 'error', summary: 'Error', detail: 'Error, please tray again later', life: 3000 });
         }
