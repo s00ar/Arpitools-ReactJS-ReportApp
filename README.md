@@ -1,7 +1,5 @@
 # Arpitools ReactJS Report Web App
 
-![App Screenshot](/path/to/screenshot.png)
-
 Welcome to the Arpitools ReactJS Report Web App repository!
 
 ## Description
@@ -29,10 +27,6 @@ To access and use this web app, follow these simple steps:
 - **Developers:** Federico Ponce, Santiago Leston, Safdar Sikander, Khawarios
 - **DevOps Specialist:** Rabia Saleem
 - **UX/UI Specialist:** Elizabeth Taranto
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgments
 
